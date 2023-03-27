@@ -19,13 +19,13 @@ class MemberRepositoryTest {
     @Test
     public void testMember() throws Exception {
         Member member = Member.builder()
-                .username("memberA")
+                .userName("memberA")
                 .build();
         Member savedMember = memberRepository.save(member);
 
         Member findMember = memberRepository.findById(savedMember.getId()).get();
         assertThat(findMember.getId()).isEqualTo(member.getId());
-        assertThat(findMember.getUsername()).isEqualTo(member.getUsername());
+        assertThat(findMember.getUserName()).isEqualTo(member.getUserName());
         assertThat(findMember).isEqualTo(member);
     }
 }
