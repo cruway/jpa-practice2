@@ -7,6 +7,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.jpapractice2.entity.Member;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -27,5 +29,30 @@ class MemberRepositoryTest {
         assertThat(findMember.getId()).isEqualTo(member.getId());
         assertThat(findMember.getUserName()).isEqualTo(member.getUserName());
         assertThat(findMember).isEqualTo(member);
+    }
+
+    @Test
+    public void findByUserNameAndAgeGreaterThan() throws Exception {
+        Member m1 = Member.builder()
+                .userName("AAA")
+                .age(10)
+                .build();
+        Member m2 = Member.builder()
+                .userName("AAA")
+                .age(20)
+                .build();
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> result = memberRepository.findByUserNameAndAgeGreaterThan("AAA", 15);
+
+        assertThat(result.get(0).getUserName()).isEqualTo("AAA");
+        assertThat(result.get(0).getAge()).isEqualTo(20);
+        assertThat(result.size()).isEqualTo(1);
+    }
+
+    @Test
+    public void findTop3HelloBy() throws Exception {
+        List<Member> helloBy = memberRepository.findTop3HelloBy();
     }
 }
