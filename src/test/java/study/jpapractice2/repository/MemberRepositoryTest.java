@@ -156,4 +156,23 @@ class MemberRepositoryTest {
             System.out.println("member = " + member);
         }
     }
+
+    @Test
+    public void returnType() throws Exception {
+        Member m1 = Member.builder()
+                .userName("AAA")
+                .age(10)
+                .build();
+        Member m2 = Member.builder()
+                .userName("BBB")
+                .age(20)
+                .build();
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> aaa1 = memberRepository.findListByUserName("AAA"); // 値がない場合、nullではなくて空欄値を取得
+        Member aaa2 = memberRepository.findMemberByUserName("AAA"); // これはnull
+        Member aaa3 = memberRepository.findOptionalByUserName("AAA").get();
+        assertThat(aaa1.get(0)).isEqualTo(aaa2).isEqualTo(aaa3);
+    }
 }
