@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import study.jpapractice2.dto.MemberDto;
 import study.jpapractice2.entity.Member;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
@@ -22,4 +23,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("select new study.jpapractice2.dto.MemberDto(m.id, m.userName, t.teamName) from Member m join m.team t")
     List<MemberDto> findMemberDto();
+
+    @Query("select m from Member m where m.userName in :names")
+    List<Member> findByNames(@Param("names") Collection<String> names);
 }

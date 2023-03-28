@@ -9,6 +9,7 @@ import study.jpapractice2.dto.MemberDto;
 import study.jpapractice2.entity.Member;
 import study.jpapractice2.entity.Team;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -116,7 +117,7 @@ class MemberRepositoryTest {
     }
 
     @Test
-    public void fin() throws Exception {
+    public void findMemberDto() throws Exception {
         Team team = Team.builder()
                 .teamName("teamA")
                 .build();
@@ -132,6 +133,27 @@ class MemberRepositoryTest {
         List<MemberDto> memberDto = memberRepository.findMemberDto();
         for (MemberDto dto : memberDto) {
             System.out.println("dto = " + dto);
+        }
+    }
+
+    // 位置基盤パラメータバインディングは使わないこと
+    // 必ず名前基盤バインディングを使う
+    @Test
+    public void findByNames() throws Exception {
+        Member m1 = Member.builder()
+                .userName("AAA")
+                .age(10)
+                .build();
+        Member m2 = Member.builder()
+                .userName("BBB")
+                .age(20)
+                .build();
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        List<Member> result = memberRepository.findByNames(Arrays.asList("AAA", "BBB"));
+        for (Member member : result) {
+            System.out.println("member = " + member);
         }
     }
 }
