@@ -1,5 +1,7 @@
 package study.jpapractice2.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +27,8 @@ class MemberRepositoryTest {
     MemberRepository memberRepository;
     @Autowired
     TeamRepository teamRepository;
+    @PersistenceContext
+    EntityManager em;
 
     @Test
     public void testMember() throws Exception {
@@ -236,5 +240,52 @@ class MemberRepositoryTest {
         assertThat(page.getTotalPages()).isEqualTo(2);
         assertThat(page.isFirst()).isTrue();
         assertThat(page.hasNext()).isTrue();
+    }
+
+    @Test
+    public void bulkUpdate() throws Exception {
+        // given
+        memberRepository.save(
+                Member.builder()
+                        .userName("member1")
+                        .age(10)
+                        .build()
+        );
+        memberRepository.save(
+                Member.builder()
+                        .userName("member2")
+                        .age(19)
+                        .build()
+        );
+        memberRepository.save(
+                Member.builder()
+                        .userName("member3")
+                        .age(20)
+                        .build()
+        );
+        memberRepository.save(
+                Member.builder()
+                        .userName("member4")
+                        .age(21)
+                        .build()
+        );
+        memberRepository.save(
+                Member.builder()
+                        .userName("member5")
+                        .age(40)
+                        .build()
+        );
+
+        // when
+        int resultCount = memberRepository.bulkAgePlus(20);
+        //em.flush();
+        //em.clear();
+
+        List<Member> result = memberRepository.findByUserName("member5");
+        Member member5 = result.get(0);
+        System.out.println("member5 = " + member5);
+
+        // then
+        assertThat(resultCount).isEqualTo(3);
     }
 }
