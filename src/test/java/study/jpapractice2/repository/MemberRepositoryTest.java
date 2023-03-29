@@ -219,6 +219,13 @@ class MemberRepositoryTest {
         // when
         Page<Member> page = memberRepository.findByAge(age, pageRequest);
 
+        // entity -> dto
+        Page<MemberDto> toMap = page.map(m -> MemberDto.builder()
+                .id(m.getId())
+                .userName(m.getUserName())
+                .teamName(null)
+                .build());
+
         // then
         List<Member> content = page.getContent();
         long totalElements = page.getTotalElements();
