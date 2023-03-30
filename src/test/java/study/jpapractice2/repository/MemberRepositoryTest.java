@@ -367,4 +367,34 @@ class MemberRepositoryTest {
     public void callCustom() throws Exception {
         List<Member> result = memberRepository.findMemberCustom();
     }
+
+    /*@Test
+    public void projections() throws Exception {
+        Team teamA = Team.builder()
+                .teamName("teamA")
+                .build();
+
+        Member m1 = Member.builder()
+                .userName("m1")
+                .age(0)
+                .team(teamA)
+                .build();
+
+        Member m2 = Member.builder()
+                .userName("m2")
+                .age(0)
+                .team(teamA)
+                .build();
+
+        em.persist(m1);
+        em.persist(m2);
+
+        em.flush();
+        em.clear();
+
+        List<UserNameOnly> result = memberRepository.findByProjectionsUserName("m1");
+        for (UserNameOnly userNameOnly : result) {
+            System.out.println("userNameOnly = " + userNameOnly.getUserName());
+        }
+    }*/
 }
