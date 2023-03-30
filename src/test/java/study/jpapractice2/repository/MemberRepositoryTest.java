@@ -331,4 +331,35 @@ class MemberRepositoryTest {
 
         //then
     }
+
+    @Test
+    public void queryHint() throws Exception {
+        //given
+        Member member1 = memberRepository.save(Member.builder()
+                .userName("member1")
+                .age(10)
+                .build());
+        em.flush();
+        em.clear();
+
+        //when
+        Member findMember = memberRepository.findReadOnlyByUserName("member1");
+        findMember.builder().userName("member2").build();
+
+        em.flush();
+    }
+
+    @Test
+    public void lock() throws Exception {
+        //given
+        Member member1 = memberRepository.save(Member.builder()
+                .userName("member1")
+                .age(10)
+                .build());
+        em.flush();
+        em.clear();
+
+        //when
+        List<Member> result = memberRepository.findLockByUserName("member1");
+    }
 }
