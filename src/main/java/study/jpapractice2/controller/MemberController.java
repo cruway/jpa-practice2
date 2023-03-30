@@ -1,6 +1,5 @@
 package study.jpapractice2.controller;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +36,7 @@ public class MemberController {
         return member.getUserName();
     }
 
-    @PostConstruct
+    //@PostConstruct
     public void init() {
         for (int i = 0; i < 100; i++) {
             memberRepository.save(Member.builder()
